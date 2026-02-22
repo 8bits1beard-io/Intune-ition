@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Intune-ventory is a PowerShell-based export system for Microsoft Intune configurations. It queries the Microsoft Graph API and generates Markdown documentation files for configuration profiles, applications, compliance policies, and security baselines.
+Intune-ition is a PowerShell-based export system for Microsoft Intune configurations. It queries the Microsoft Graph API and generates Markdown documentation files for configuration profiles, applications, compliance policies, and security baselines.
 
 ## Repository Structure
 
@@ -12,10 +12,10 @@ Four standalone PowerShell scripts, each following the same architectural patter
 
 | Script | Exports | Primary Endpoints |
 |--------|---------|-------------------|
-| `Intune-ition.ps1` | Configuration profiles | `deviceConfigurations`, `configurationPolicies`, `groupPolicyConfigurations`, `intents` |
-| `App-rehension.ps1` | Applications | `mobileApps` |
-| `Com-pliance.ps1` | Compliance policies | `compliancePolicies`, `deviceCompliancePolicies` |
-| `Base-ics.ps1` | Security baselines (in development) | `templates`, `intents` |
+| `Configuration-Harvester.ps1` | Configuration profiles | `deviceConfigurations`, `configurationPolicies`, `groupPolicyConfigurations`, `intents` |
+| `Application-Stall.ps1` | Applications | `mobileApps` |
+| `Compliance-Fence.ps1` | Compliance policies | `compliancePolicies`, `deviceCompliancePolicies` |
+| `Baseline-Seed.ps1` | Security baselines (in development) | `templates`, `intents` |
 
 Technical docs live in `/docs/<script-name>.md`.
 
@@ -25,16 +25,16 @@ No build system. Scripts run directly in PowerShell 5.1+ with the `Microsoft.Gra
 
 ```powershell
 # Full tenant export
-.\Intune-ition.ps1 -All -OutputPath ".\Output"
+.\Configuration-Harvester.ps1 -All -OutputPath ".\Output"
 
 # Wildcard name patterns
-.\App-rehension.ps1 -AppNames "Chrome*,*Office*" -OutputPath ".\Apps"
+.\Application-Stall.ps1 -AppNames "Chrome*,*Office*" -OutputPath ".\Apps"
 
 # From CSV
-.\Com-pliance.ps1 -CsvFile "policies.csv" -OutputPath ".\Compliance"
+.\Compliance-Fence.ps1 -CsvFile "policies.csv" -OutputPath ".\Compliance"
 
 # Interactive (default - prompts for names)
-.\Intune-ition.ps1 -OutputPath ".\Output"
+.\Configuration-Harvester.ps1 -OutputPath ".\Output"
 ```
 
 ## Script Architecture Pattern

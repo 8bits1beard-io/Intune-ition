@@ -1,4 +1,4 @@
-# Intune-ventory
+# Intune-ition
 
 Documentation repository for Walmart's Microsoft Intune configuration profiles. Contains point-in-time exports of device management policies, settings, and assignments.
 
@@ -9,13 +9,13 @@ This repository serves as a centralized archive for Intune configuration profile
 ## Repository Structure
 
 ```
-Intune-Configuration-Profiles/
+Intune-ition/
 ├── docs/                           # Tool documentation
-│   └── Intune-ition.md             # Technical documentation
-├── Intune-ition.ps1                # Configuration profile export tool
-├── App-rehension.ps1               # Application export tool
-├── Base-ics.ps1                    # Security baseline export tool (in development)
-├── Com-pliance.ps1                 # Compliance policy export tool
+│   └── Configuration-Harvester.md  # Technical documentation
+├── Configuration-Harvester.ps1     # Configuration profile export tool
+├── Application-Stall.ps1          # Application export tool
+├── Baseline-Seed.ps1              # Security baseline export tool (in development)
+├── Compliance-Fence.ps1           # Compliance policy export tool
 ├── 17FEB2026/                      # Export snapshot
 │   ├── README.md                   # Collection metadata & index
 │   ├── Profile1.md                 # Individual profile docs
@@ -27,10 +27,10 @@ Intune-Configuration-Profiles/
 
 | Tool | Description |
 |------|-------------|
-| [Intune-ition.ps1](Intune-ition.ps1) | Export Intune **configuration profiles** to Markdown files |
-| [App-rehension.ps1](App-rehension.ps1) | Export Intune **applications** to Markdown files |
-| [Com-pliance.ps1](Com-pliance.ps1) | Export Intune **compliance policies** to Markdown files |
-| [Base-ics.ps1](Base-ics.ps1) | Export Intune **security baselines** to Markdown files *(in development)* |
+| [Configuration-Harvester.ps1](Configuration-Harvester.ps1) | Export Intune **configuration profiles** to Markdown files |
+| [Application-Stall.ps1](Application-Stall.ps1) | Export Intune **applications** to Markdown files |
+| [Compliance-Fence.ps1](Compliance-Fence.ps1) | Export Intune **compliance policies** to Markdown files |
+| [Baseline-Seed.ps1](Baseline-Seed.ps1) | Export Intune **security baselines** to Markdown files *(in development)* |
 
 ### Prerequisites
 
@@ -48,77 +48,77 @@ Install-Module Microsoft.Graph.Authentication -Scope CurrentUser
 ### Export All Profiles (Full Tenant Snapshot)
 
 ```powershell
-.\Intune-ition.ps1 -All -OutputPath ".\$(Get-Date -Format 'ddMMMyyyy')"
+.\Configuration-Harvester.ps1 -All -OutputPath ".\$(Get-Date -Format 'ddMMMyyyy')"
 ```
 
 ### Export Specific Profiles
 
 ```powershell
 # By name pattern (wildcards supported)
-.\Intune-ition.ps1 -ProfileNames "WinD_*,GLOBAL_*" -OutputPath ".\Exports"
+.\Configuration-Harvester.ps1 -ProfileNames "WinD_*,GLOBAL_*" -OutputPath ".\Exports"
 
 # From CSV list
-.\Intune-ition.ps1 -CsvFile "profiles.csv" -OutputPath ".\Exports"
+.\Configuration-Harvester.ps1 -CsvFile "profiles.csv" -OutputPath ".\Exports"
 
 # Interactive (prompts for names)
-.\Intune-ition.ps1 -OutputPath ".\Exports"
+.\Configuration-Harvester.ps1 -OutputPath ".\Exports"
 ```
 
 ### Export All Applications
 
 ```powershell
-.\App-rehension.ps1 -All -OutputPath ".\Apps-$(Get-Date -Format 'ddMMMyyyy')"
+.\Application-Stall.ps1 -All -OutputPath ".\Apps-$(Get-Date -Format 'ddMMMyyyy')"
 ```
 
 ### Export Specific Applications
 
 ```powershell
 # By name pattern (wildcards supported)
-.\App-rehension.ps1 -AppNames "7-Zip*,Chrome*,*Office*" -OutputPath ".\Apps"
+.\Application-Stall.ps1 -AppNames "7-Zip*,Chrome*,*Office*" -OutputPath ".\Apps"
 
 # All platforms (default is Windows only)
-.\App-rehension.ps1 -All -Platform All -OutputPath ".\AllApps"
+.\Application-Stall.ps1 -All -Platform All -OutputPath ".\AllApps"
 
 # Interactive (prompts for names)
-.\App-rehension.ps1 -OutputPath ".\Apps"
+.\Application-Stall.ps1 -OutputPath ".\Apps"
 ```
 
 ### Export All Security Baselines
 
 ```powershell
-.\Base-ics.ps1 -All -OutputPath ".\Baselines-$(Get-Date -Format 'ddMMMyyyy')"
+.\Baseline-Seed.ps1 -All -OutputPath ".\Baselines-$(Get-Date -Format 'ddMMMyyyy')"
 ```
 
 ### Export Specific Security Baselines
 
 ```powershell
 # By name pattern (wildcards supported)
-.\Base-ics.ps1 -BaselineNames "Windows*,Defender*" -OutputPath ".\Baselines"
+.\Baseline-Seed.ps1 -BaselineNames "Windows*,Defender*" -OutputPath ".\Baselines"
 
 # Interactive (prompts for names)
-.\Base-ics.ps1 -OutputPath ".\Baselines"
+.\Baseline-Seed.ps1 -OutputPath ".\Baselines"
 ```
 
 ### Export All Compliance Policies
 
 ```powershell
-.\Com-pliance.ps1 -All -OutputPath ".\Compliance-$(Get-Date -Format 'ddMMMyyyy')"
+.\Compliance-Fence.ps1 -All -OutputPath ".\Compliance-$(Get-Date -Format 'ddMMMyyyy')"
 ```
 
 ### Export Specific Compliance Policies
 
 ```powershell
 # By name pattern (wildcards supported)
-.\Com-pliance.ps1 -PolicyNames "Windows*,*BYOD*" -OutputPath ".\Compliance"
+.\Compliance-Fence.ps1 -PolicyNames "Windows*,*BYOD*" -OutputPath ".\Compliance"
 
 # Filter by platform
-.\Com-pliance.ps1 -All -Platform Windows -OutputPath ".\WindowsCompliance"
+.\Compliance-Fence.ps1 -All -Platform Windows -OutputPath ".\WindowsCompliance"
 
 # From CSV list
-.\Com-pliance.ps1 -CsvFile "policies.csv" -OutputPath ".\Compliance"
+.\Compliance-Fence.ps1 -CsvFile "policies.csv" -OutputPath ".\Compliance"
 
 # Interactive (prompts for names)
-.\Com-pliance.ps1 -OutputPath ".\Compliance"
+.\Compliance-Fence.ps1 -OutputPath ".\Compliance"
 ```
 
 ## Profile Documentation Format
@@ -203,10 +203,10 @@ Each compliance policy Markdown file includes:
 
 | Tool | Documentation |
 |------|---------------|
-| Intune-ition.ps1 | [Technical Documentation](docs/Intune-ition.md) |
-| App-rehension.ps1 | [Technical Documentation](docs/App-rehension.md) |
-| Com-pliance.ps1 | [Technical Documentation](docs/Com-pliance.md) |
-| Base-ics.ps1 | [Technical Documentation](docs/Base-ics.md) *(in development)* |
+| Configuration-Harvester.ps1 | [Technical Documentation](docs/Configuration-Harvester.md) |
+| Application-Stall.ps1 | [Technical Documentation](docs/Application-Stall.md) |
+| Compliance-Fence.ps1 | [Technical Documentation](docs/Compliance-Fence.md) |
+| Baseline-Seed.ps1 | [Technical Documentation](docs/Baseline-Seed.md) *(in development)* |
 
 ## Contributing
 
@@ -214,7 +214,7 @@ Contact the Windows Engineering team for questions or to contribute.
 
 ## Author
 
-**Joshua Walderbach** (j0w03ow)  
+**Joshua Walderbach** (j0w03ow)
 Windows Engineering Team
 
 ---

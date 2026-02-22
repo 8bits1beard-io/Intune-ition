@@ -1,8 +1,8 @@
-# Intune-ition - Technical Documentation
+# Configuration-Harvester - Technical Documentation
 
 ## Overview
 
-`Intune-ition.ps1` is a PowerShell script that exports Microsoft Intune configuration profiles to individual Markdown files. It queries all four Intune profile types via the Microsoft Graph API and generates human-readable documentation.
+`Configuration-Harvester.ps1` is a PowerShell script that exports Microsoft Intune configuration profiles to individual Markdown files. It queries all four Intune profile types via the Microsoft Graph API and generates human-readable documentation.
 
 **Version:** 1.0.0  
 **Author:** Joshua Walderbach (j0w03ow)  
@@ -217,33 +217,33 @@ GET https://graph.microsoft.com/beta/deviceManagement/assignmentFilters/{filterI
 
 ### Export All Profiles (Full Tenant Snapshot)
 ```powershell
-.\Intune-ition.ps1 -All -OutputPath "C:\Exports\FY2026-Q1"
+.\Configuration-Harvester.ps1 -All -OutputPath "C:\Exports\FY2026-Q1"
 ```
 
 ### Export Profiles by Naming Convention
 ```powershell
 # All Windows Device profiles
-.\Intune-ition.ps1 -ProfileNames "WinD_*" -OutputPath ".\WindowsDevice"
+.\Configuration-Harvester.ps1 -ProfileNames "WinD_*" -OutputPath ".\WindowsDevice"
 
 # Multiple patterns
-.\Intune-ition.ps1 -ProfileNames "WinD_*,WinC_*,GLOBAL_*" -OutputPath ".\Exports"
+.\Configuration-Harvester.ps1 -ProfileNames "WinD_*,WinC_*,GLOBAL_*" -OutputPath ".\Exports"
 
 # Specific profile
-.\Intune-ition.ps1 -ProfileNames "WinD_EP_Antivirus_policy_v1.0" -OutputPath ".\AV"
+.\Configuration-Harvester.ps1 -ProfileNames "WinD_EP_Antivirus_policy_v1.0" -OutputPath ".\AV"
 ```
 
 ### Export from CSV
 ```powershell
 # CSV format: ProfileName column
-.\Intune-ition.ps1 -CsvFile "profiles.csv" -OutputPath ".\Profiles"
+.\Configuration-Harvester.ps1 -CsvFile "profiles.csv" -OutputPath ".\Profiles"
 
 # Custom column name
-.\Intune-ition.ps1 -CsvFile "audit.csv" -CsvColumn "IntuneName" -OutputPath ".\Audit"
+.\Configuration-Harvester.ps1 -CsvFile "audit.csv" -CsvColumn "IntuneName" -OutputPath ".\Audit"
 ```
 
 ### Interactive Mode
 ```powershell
-.\Intune-ition.ps1 -OutputPath ".\Exports"
+.\Configuration-Harvester.ps1 -OutputPath ".\Exports"
 # Prompts: Enter profile names (comma-separated, wildcards supported):
 # Input: WinD_EP_*,*Firewall*
 ```
@@ -319,7 +319,7 @@ Profile names are sanitized for filesystem compatibility:
 ## Changelog
 
 ### Version 1.0.0 (2025-02-17)
-- Initial release as **Intune-ition**
+- Initial release as **Configuration-Harvester**
 - Export all four Intune profile types (Settings Catalog, ADMX, Legacy, Endpoint Security)
 - `-All` parameter to export entire tenant
 - Human-readable settings tables for all profile types

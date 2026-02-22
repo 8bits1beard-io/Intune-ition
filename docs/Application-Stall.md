@@ -1,8 +1,8 @@
-# App-rehension - Technical Documentation
+# Application-Stall - Technical Documentation
 
 ## Overview
 
-`App-rehension.ps1` is a PowerShell script that exports Microsoft Intune applications to individual Markdown files. It queries the Intune mobile apps API via Microsoft Graph and generates human-readable documentation including deployment settings, assignments, and detection rules.
+`Application-Stall.ps1` is a PowerShell script that exports Microsoft Intune applications to individual Markdown files. It queries the Intune mobile apps API via Microsoft Graph and generates human-readable documentation including deployment settings, assignments, and detection rules.
 
 **Version:** 1.0.0  
 **Author:** Joshua Walderbach (j0w03ow)  
@@ -218,45 +218,45 @@ GET https://graph.microsoft.com/beta/deviceManagement/assignmentFilters/{filterI
 
 ### Export All Windows Applications
 ```powershell
-.\App-rehension.ps1 -All -OutputPath "C:\Exports\Apps-FY2026"
+.\Application-Stall.ps1 -All -OutputPath "C:\Exports\Apps-FY2026"
 ```
 
 ### Export All Applications (All Platforms)
 ```powershell
-.\App-rehension.ps1 -All -Platform All -OutputPath ".\AllApps"
+.\Application-Stall.ps1 -All -Platform All -OutputPath ".\AllApps"
 ```
 
 ### Export Applications by Name Pattern
 ```powershell
 # All 7-Zip apps
-.\App-rehension.ps1 -AppNames "7-Zip*" -OutputPath ".\7Zip"
+.\Application-Stall.ps1 -AppNames "7-Zip*" -OutputPath ".\7Zip"
 
 # Multiple patterns
-.\App-rehension.ps1 -AppNames "Chrome*,Firefox*,Edge*" -OutputPath ".\Browsers"
+.\Application-Stall.ps1 -AppNames "Chrome*,Firefox*,Edge*" -OutputPath ".\Browsers"
 
 # Specific application
-.\App-rehension.ps1 -AppNames "Microsoft 365 Apps for Enterprise" -OutputPath ".\M365"
+.\Application-Stall.ps1 -AppNames "Microsoft 365 Apps for Enterprise" -OutputPath ".\M365"
 ```
 
 ### Export from CSV
 ```powershell
 # CSV format: AppName column
-.\App-rehension.ps1 -CsvFile "apps.csv" -OutputPath ".\Apps"
+.\Application-Stall.ps1 -CsvFile "apps.csv" -OutputPath ".\Apps"
 
 # Custom column name
-.\App-rehension.ps1 -CsvFile "inventory.csv" -CsvColumn "ApplicationName" -OutputPath ".\Apps"
+.\Application-Stall.ps1 -CsvFile "inventory.csv" -CsvColumn "ApplicationName" -OutputPath ".\Apps"
 ```
 
 ### Interactive Mode
 ```powershell
-.\App-rehension.ps1 -OutputPath ".\Exports"
+.\Application-Stall.ps1 -OutputPath ".\Exports"
 # Prompts: Enter application names (comma-separated, wildcards supported):
 # Input: *Adobe*,*Office*
 ```
 
 ### Export iOS Applications
 ```powershell
-.\App-rehension.ps1 -All -Platform iOS -OutputPath ".\iOS-Apps"
+.\Application-Stall.ps1 -All -Platform iOS -OutputPath ".\iOS-Apps"
 ```
 
 ---

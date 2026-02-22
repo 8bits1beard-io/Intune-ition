@@ -29,23 +29,23 @@
     Options: Windows, iOS, Android, macOS, All
 
 .EXAMPLE
-    .\App-rehension.ps1 -All -OutputPath "C:\Exports\AllApps"
+    .\Application-Stall.ps1 -All -OutputPath "C:\Exports\AllApps"
     Exports every Windows application in the Intune tenant.
 
 .EXAMPLE
-    .\App-rehension.ps1 -OutputPath "C:\Exports\2026-02"
+    .\Application-Stall.ps1 -OutputPath "C:\Exports\2026-02"
     Prompts for application names, then exports to the specified folder.
 
 .EXAMPLE
-    .\App-rehension.ps1 -AppNames "7-Zip*,Chrome*,*Office*" -OutputPath ".\Exports"
+    .\Application-Stall.ps1 -AppNames "7-Zip*,Chrome*,*Office*" -OutputPath ".\Exports"
     Exports applications matching the specified name patterns.
 
 .EXAMPLE
-    .\App-rehension.ps1 -All -Platform All -OutputPath ".\AllPlatforms"
+    .\Application-Stall.ps1 -All -Platform All -OutputPath ".\AllPlatforms"
     Exports all applications across all platforms.
 
 .NOTES
-    File Name      : App-rehension.ps1
+    File Name      : Application-Stall.ps1
     Author         : Joshua Walderbach (j0w03ow)
     Prerequisite   : Microsoft.Graph.Authentication PowerShell module
     Requires       : PowerShell 5.1 or higher
@@ -148,7 +148,7 @@ if (-not (Test-Path $OutputPath)) {
     }
 }
 
-Write-Host "=== Intune Application Export (App-rehension) ===" -ForegroundColor Cyan
+Write-Host "=== Intune Application Export (Application-Stall) ===" -ForegroundColor Cyan
 Write-Host ""
 
 # Check for Microsoft.Graph.Authentication module
@@ -768,7 +768,7 @@ $readme += "|----------|-------|"
 $readme += "| **Collected By** | $collectedBy |"
 $readme += "| **Collection Date** | $collectionDate |"
 $readme += "| **Collection Method** | Microsoft Graph API (PowerShell) |"
-$readme += "| **Script** | App-rehension.ps1 |"
+$readme += "| **Script** | Application-Stall.ps1 |"
 $readme += "| **Platform Filter** | $Platform |"
 $readme += "| **Applications Collected** | $($exportedFiles.Count) |"
 $readme += ""
@@ -800,7 +800,7 @@ $readme += "- ``DeviceManagementApps.Read.All``"
 $readme += ""
 $readme += "---"
 $readme += ""
-$readme += "*Generated automatically by App-rehension.ps1*"
+$readme += "*Generated automatically by Application-Stall.ps1*"
 
 $readmePath = Join-Path $exportFolder "README.md"
 $readme -join "`n" | Out-File -LiteralPath $readmePath -Encoding UTF8
@@ -823,7 +823,7 @@ Write-Host ""
 # Show appreciation call-to-action
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "   Found App-rehension helpful?" -ForegroundColor Yellow
+Write-Host "   Found Application-Stall helpful?" -ForegroundColor Yellow
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "If this tool saved you time or made your work easier," -ForegroundColor White
@@ -836,6 +836,6 @@ Write-Host "Joshua Walderbach (j0w03ow)" -ForegroundColor White
 Write-Host "Badgify: " -NoNewline -ForegroundColor Gray
 Write-Host "https://internal.walmart.com/content/badgify/home/badgify.html" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Thank you for using App-rehension! " -ForegroundColor Green
+Write-Host "Thank you for using Application-Stall! " -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""

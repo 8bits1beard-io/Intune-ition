@@ -30,23 +30,23 @@
     Options: Windows, iOS, Android, macOS, All
 
 .EXAMPLE
-    .\Com-pliance.ps1 -All -OutputPath "C:\Exports\CompliancePolicies"
+    .\Compliance-Fence.ps1 -All -OutputPath "C:\Exports\CompliancePolicies"
     Exports every compliance policy in the Intune tenant.
 
 .EXAMPLE
-    .\Com-pliance.ps1 -OutputPath "C:\Exports\2026-02"
+    .\Compliance-Fence.ps1 -OutputPath "C:\Exports\2026-02"
     Prompts for policy names, then exports to the specified folder.
 
 .EXAMPLE
-    .\Com-pliance.ps1 -PolicyNames "Windows*,*BitLocker*" -OutputPath ".\Exports"
+    .\Compliance-Fence.ps1 -PolicyNames "Windows*,*BitLocker*" -OutputPath ".\Exports"
     Exports compliance policies matching the specified name patterns.
 
 .EXAMPLE
-    .\Com-pliance.ps1 -All -Platform Windows -OutputPath ".\WindowsCompliance"
+    .\Compliance-Fence.ps1 -All -Platform Windows -OutputPath ".\WindowsCompliance"
     Exports all Windows compliance policies.
 
 .NOTES
-    File Name      : Com-pliance.ps1
+    File Name      : Compliance-Fence.ps1
     Author         : Joshua Walderbach (j0w03ow)
     Prerequisite   : Microsoft.Graph.Authentication PowerShell module
     Requires       : PowerShell 5.1 or higher
@@ -149,7 +149,7 @@ if (-not (Test-Path $OutputPath)) {
     }
 }
 
-Write-Host "=== Intune Compliance Policy Export (Com-pliance) ===" -ForegroundColor Cyan
+Write-Host "=== Intune Compliance Policy Export (Compliance-Fence) ===" -ForegroundColor Cyan
 Write-Host ""
 
 # Check for Microsoft.Graph.Authentication module
@@ -791,7 +791,7 @@ foreach ($policy in $foundPolicies) {
     $md += "| **Collected By** | $collectedBy |"
     $md += "| **Collection Date** | $collectionDate |"
     $md += "| **Collection Method** | Microsoft Graph API |"
-    $md += "| **Script** | Com-pliance.ps1 |"
+    $md += "| **Script** | Compliance-Fence.ps1 |"
     $md += ""
     
     # Write file
@@ -820,7 +820,7 @@ $readme += "|----------|-------|"
 $readme += "| **Collected By** | $collectedBy |"
 $readme += "| **Collection Date** | $collectionDate |"
 $readme += "| **Collection Method** | Microsoft Graph API (PowerShell) |"
-$readme += "| **Script** | Com-pliance.ps1 |"
+$readme += "| **Script** | Compliance-Fence.ps1 |"
 $readme += "| **Policies Collected** | $($exportedFiles.Count) |"
 $readme += ""
 $readme += "## Search Patterns Used"
@@ -861,7 +861,7 @@ $readme += "- ``DeviceManagementConfiguration.Read.All``"
 $readme += ""
 $readme += "---"
 $readme += ""
-$readme += "*Generated automatically by Com-pliance.ps1*"
+$readme += "*Generated automatically by Compliance-Fence.ps1*"
 
 $readmePath = Join-Path $exportFolder "README.md"
 $readme -join "`n" | Out-File -LiteralPath $readmePath -Encoding UTF8
@@ -884,7 +884,7 @@ Write-Host ""
 # Show appreciation call-to-action
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "   Found Com-pliance helpful?" -ForegroundColor Yellow
+Write-Host "   Found Compliance-Fence helpful?" -ForegroundColor Yellow
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "If this tool saved you time or made your work easier," -ForegroundColor White
@@ -897,6 +897,6 @@ Write-Host "Joshua Walderbach (j0w03ow)" -ForegroundColor White
 Write-Host "Badgify: " -NoNewline -ForegroundColor Gray
 Write-Host "https://internal.walmart.com/content/badgify/home/badgify.html" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Thank you for using Com-pliance! " -ForegroundColor Green
+Write-Host "Thank you for using Compliance-Fence! " -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""

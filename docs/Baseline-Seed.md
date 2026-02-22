@@ -1,10 +1,10 @@
-# Base-ics - Technical Documentation
+# Baseline-Seed - Technical Documentation
 
 > ⚠️ **IN DEVELOPMENT** - This script is not ready for production use.
 
 ## Overview
 
-`Base-ics.ps1` is a PowerShell script that exports Microsoft Intune security baselines to individual Markdown files. It queries security baseline templates, deployed instances, and Settings Catalog-based security policies via the Microsoft Graph API.
+`Baseline-Seed.ps1` is a PowerShell script that exports Microsoft Intune security baselines to individual Markdown files. It queries security baseline templates, deployed instances, and Settings Catalog-based security policies via the Microsoft Graph API.
 
 **Version:** 1.0.0 (Development)  
 **Author:** Joshua Walderbach (j0w03ow)  
@@ -222,29 +222,29 @@ GET https://graph.microsoft.com/beta/deviceManagement/intents('{id}')/assignment
 
 ### Export All Security Baselines
 ```powershell
-.\Base-ics.ps1 -All -OutputPath "C:\Exports\Baselines-FY2026"
+.\Baseline-Seed.ps1 -All -OutputPath "C:\Exports\Baselines-FY2026"
 ```
 
 ### Export Baselines by Name Pattern
 ```powershell
 # All Windows baselines
-.\Base-ics.ps1 -BaselineNames "Windows*" -OutputPath ".\WindowsBaselines"
+.\Baseline-Seed.ps1 -BaselineNames "Windows*" -OutputPath ".\WindowsBaselines"
 
 # Defender baselines
-.\Base-ics.ps1 -BaselineNames "*Defender*" -OutputPath ".\Defender"
+.\Baseline-Seed.ps1 -BaselineNames "*Defender*" -OutputPath ".\Defender"
 
 # Multiple patterns
-.\Base-ics.ps1 -BaselineNames "Windows*,Edge*,Defender*" -OutputPath ".\Baselines"
+.\Baseline-Seed.ps1 -BaselineNames "Windows*,Edge*,Defender*" -OutputPath ".\Baselines"
 ```
 
 ### Export from CSV
 ```powershell
-.\Base-ics.ps1 -CsvFile "baselines.csv" -OutputPath ".\Baselines"
+.\Baseline-Seed.ps1 -CsvFile "baselines.csv" -OutputPath ".\Baselines"
 ```
 
 ### Interactive Mode
 ```powershell
-.\Base-ics.ps1 -OutputPath ".\Exports"
+.\Baseline-Seed.ps1 -OutputPath ".\Exports"
 # Prompts: Enter baseline names (comma-separated, wildcards supported):
 ```
 

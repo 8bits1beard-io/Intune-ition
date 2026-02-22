@@ -1,8 +1,8 @@
-# Com-pliance - Technical Documentation
+# Compliance-Fence - Technical Documentation
 
 ## Overview
 
-`Com-pliance.ps1` is a PowerShell script that exports Microsoft Intune compliance policies to individual Markdown files. It queries both legacy device compliance policies and Settings Catalog-based compliance policies via the Microsoft Graph API, generating human-readable documentation including settings, non-compliance actions, and assignments.
+`Compliance-Fence.ps1` is a PowerShell script that exports Microsoft Intune compliance policies to individual Markdown files. It queries both legacy device compliance policies and Settings Catalog-based compliance policies via the Microsoft Graph API, generating human-readable documentation including settings, non-compliance actions, and assignments.
 
 **Version:** 1.0.0  
 **Author:** Joshua Walderbach (j0w03ow)  
@@ -237,38 +237,38 @@ GET https://graph.microsoft.com/beta/deviceManagement/assignmentFilters/{filterI
 
 ### Export All Compliance Policies
 ```powershell
-.\Com-pliance.ps1 -All -OutputPath "C:\Exports\Compliance-FY2026"
+.\Compliance-Fence.ps1 -All -OutputPath "C:\Exports\Compliance-FY2026"
 ```
 
 ### Export Windows Compliance Policies Only
 ```powershell
-.\Com-pliance.ps1 -All -Platform Windows -OutputPath ".\WindowsCompliance"
+.\Compliance-Fence.ps1 -All -Platform Windows -OutputPath ".\WindowsCompliance"
 ```
 
 ### Export Policies by Name Pattern
 ```powershell
 # All Windows policies
-.\Com-pliance.ps1 -PolicyNames "Windows*" -OutputPath ".\Windows"
+.\Compliance-Fence.ps1 -PolicyNames "Windows*" -OutputPath ".\Windows"
 
 # Multiple patterns
-.\Com-pliance.ps1 -PolicyNames "*BYOD*,*MDM*,*Compliance*" -OutputPath ".\Policies"
+.\Compliance-Fence.ps1 -PolicyNames "*BYOD*,*MDM*,*Compliance*" -OutputPath ".\Policies"
 
 # Specific policy
-.\Com-pliance.ps1 -PolicyNames "WindowsCompliance_v2.0" -OutputPath ".\WinCompliance"
+.\Compliance-Fence.ps1 -PolicyNames "WindowsCompliance_v2.0" -OutputPath ".\WinCompliance"
 ```
 
 ### Export from CSV
 ```powershell
 # CSV format: PolicyName column
-.\Com-pliance.ps1 -CsvFile "policies.csv" -OutputPath ".\Policies"
+.\Compliance-Fence.ps1 -CsvFile "policies.csv" -OutputPath ".\Policies"
 
 # Custom column name
-.\Com-pliance.ps1 -CsvFile "audit.csv" -CsvColumn "CompliancePolicyName" -OutputPath ".\Audit"
+.\Compliance-Fence.ps1 -CsvFile "audit.csv" -CsvColumn "CompliancePolicyName" -OutputPath ".\Audit"
 ```
 
 ### Interactive Mode
 ```powershell
-.\Com-pliance.ps1 -OutputPath ".\Exports"
+.\Compliance-Fence.ps1 -OutputPath ".\Exports"
 # Prompts: Enter policy names (comma-separated, wildcards supported):
 # Input: WinD_*,*iOS*
 ```
@@ -276,10 +276,10 @@ GET https://graph.microsoft.com/beta/deviceManagement/assignmentFilters/{filterI
 ### Export Mobile Device Compliance
 ```powershell
 # iOS policies
-.\Com-pliance.ps1 -All -Platform iOS -OutputPath ".\iOS-Compliance"
+.\Compliance-Fence.ps1 -All -Platform iOS -OutputPath ".\iOS-Compliance"
 
 # Android policies
-.\Com-pliance.ps1 -All -Platform Android -OutputPath ".\Android-Compliance"
+.\Compliance-Fence.ps1 -All -Platform Android -OutputPath ".\Android-Compliance"
 ```
 
 ---

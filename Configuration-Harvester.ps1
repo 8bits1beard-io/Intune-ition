@@ -25,23 +25,23 @@
     Export all configuration profiles in the tenant (ignores profile name filtering).
 
 .EXAMPLE
-    .\Intune-ition.ps1 -All -OutputPath "C:\Exports\FullTenant"
+    .\Configuration-Harvester.ps1 -All -OutputPath "C:\Exports\FullTenant"
     Exports every configuration profile in the Intune tenant.
 
 .EXAMPLE
-    .\Intune-ition.ps1 -OutputPath "C:\Exports\2026-02"
+    .\Configuration-Harvester.ps1 -OutputPath "C:\Exports\2026-02"
     Prompts for profile names, then exports to the specified folder.
 
 .EXAMPLE
-    .\Intune-ition.ps1 -ProfileNames "OneDrive*,Firewall*,GLOBAL*" -OutputPath ".\Exports"
+    .\Configuration-Harvester.ps1 -ProfileNames "OneDrive*,Firewall*,GLOBAL*" -OutputPath ".\Exports"
     Exports profiles matching the specified name patterns.
 
 .EXAMPLE
-    .\Intune-ition.ps1 -CsvFile "profiles.csv" -CsvColumn "Name" -OutputPath "C:\Exports"
+    .\Configuration-Harvester.ps1 -CsvFile "profiles.csv" -CsvColumn "Name" -OutputPath "C:\Exports"
     Exports profiles listed in CSV.
 
 .NOTES
-    File Name      : Intune-ition.ps1
+    File Name      : Configuration-Harvester.ps1
     Author         : Joshua Walderbach (j0w03ow)
     Prerequisite   : Microsoft.Graph.Authentication PowerShell module
     Requires       : PowerShell 5.1 or higher
@@ -140,7 +140,7 @@ if (-not (Test-Path $OutputPath)) {
     }
 }
 
-Write-Host "=== Intune Configuration Profile Export ===" -ForegroundColor Cyan
+Write-Host "=== Intune Configuration Profile Export (Configuration-Harvester) ===" -ForegroundColor Cyan
 Write-Host ""
 
 # Check for Microsoft.Graph.Authentication module
@@ -597,7 +597,7 @@ function Build-ImportReadyJson {
     return [ordered]@{
         metadata = [ordered]@{
             exportDate        = (Get-Date -Format "o")
-            exportTool        = "Intune-ition"
+            exportTool        = "Configuration-Harvester"
             sourceProfileId   = $Profile.id
             sourceProfileName = $name
             profileType       = $Profile.profileSource
@@ -872,7 +872,7 @@ $readme += "|----------|-------|"
 $readme += "| **Collected By** | $collectedBy |"
 $readme += "| **Collection Date** | $collectionDate |"
 $readme += "| **Collection Method** | Microsoft Graph API (PowerShell) |"
-$readme += "| **Script** | Get-IntuneProfilesByName.ps1 |"
+$readme += "| **Script** | Configuration-Harvester.ps1 |"
 $readme += "| **Profiles Collected** | $($exportedFiles.Count) |"
 $readme += ""
 $readme += "## Search Patterns Used"
@@ -910,7 +910,7 @@ $readme += "- ``DeviceManagementConfiguration.Read.All``"
 $readme += ""
 $readme += "---"
 $readme += ""
-$readme += "*Generated automatically by Intune-ition.ps1*"
+$readme += "*Generated automatically by Configuration-Harvester.ps1*"
 
 $readmePath = Join-Path $exportFolder "README.md"
 $readme -join "`n" | Out-File -LiteralPath $readmePath -Encoding UTF8
@@ -934,7 +934,7 @@ Write-Host ""
 # Show appreciation call-to-action
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "   Found Intune-ition helpful?" -ForegroundColor Yellow
+Write-Host "   Found Configuration-Harvester helpful?" -ForegroundColor Yellow
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "If this tool saved you time or made your work easier," -ForegroundColor White
@@ -947,6 +947,6 @@ Write-Host "Joshua Walderbach (j0w03ow)" -ForegroundColor White
 Write-Host "Badgify: " -NoNewline -ForegroundColor Gray
 Write-Host "https://internal.walmart.com/content/badgify/home/badgify.html" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Thank you for using Intune-ition! " -ForegroundColor Green
+Write-Host "Thank you for using Configuration-Harvester! " -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""

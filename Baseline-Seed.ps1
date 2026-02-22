@@ -28,23 +28,23 @@
     Export all security baselines in the tenant (ignores baseline name filtering).
 
 .EXAMPLE
-    .\Base-ics.ps1 -All -OutputPath "C:\Exports\SecurityBaselines"
+    .\Baseline-Seed.ps1 -All -OutputPath "C:\Exports\SecurityBaselines"
     Exports every security baseline in the Intune tenant.
 
 .EXAMPLE
-    .\Base-ics.ps1 -OutputPath "C:\Exports\2026-02"
+    .\Baseline-Seed.ps1 -OutputPath "C:\Exports\2026-02"
     Prompts for baseline names, then exports to the specified folder.
 
 .EXAMPLE
-    .\Base-ics.ps1 -BaselineNames "Windows*,Defender*" -OutputPath ".\Exports"
+    .\Baseline-Seed.ps1 -BaselineNames "Windows*,Defender*" -OutputPath ".\Exports"
     Exports baselines matching the specified name patterns.
 
 .EXAMPLE
-    .\Base-ics.ps1 -CsvFile "baselines.csv" -CsvColumn "Name" -OutputPath "C:\Exports"
+    .\Baseline-Seed.ps1 -CsvFile "baselines.csv" -CsvColumn "Name" -OutputPath "C:\Exports"
     Exports baselines listed in CSV.
 
 .NOTES
-    File Name      : Base-ics.ps1
+    File Name      : Baseline-Seed.ps1
     Author         : Joshua Walderbach (j0w03ow)
     Prerequisite   : Microsoft.Graph.Authentication PowerShell module
     Requires       : PowerShell 5.1 or higher
@@ -156,7 +156,7 @@ if (-not (Test-Path $OutputPath)) {
     }
 }
 
-Write-Host "=== Intune Security Baseline Export (Base-ics) ===" -ForegroundColor Cyan
+Write-Host "=== Intune Security Baseline Export (Baseline-Seed) ===" -ForegroundColor Cyan
 Write-Host ""
 
 # Check for Microsoft.Graph.Authentication module
@@ -992,7 +992,7 @@ $readme += "|----------|-------|"
 $readme += "| **Collected By** | $collectedBy |"
 $readme += "| **Collection Date** | $collectionDate |"
 $readme += "| **Collection Method** | Microsoft Graph API (PowerShell) |"
-$readme += "| **Script** | Base-ics.ps1 |"
+$readme += "| **Script** | Baseline-Seed.ps1 |"
 $readme += "| **Baselines Collected** | $($exportedFiles.Count) |"
 $readme += ""
 $readme += "## Search Patterns Used"
@@ -1041,7 +1041,7 @@ $readme += "- **Account Protection** - Credential guard and account policies"
 $readme += ""
 $readme += "---"
 $readme += ""
-$readme += "*Generated automatically by Base-ics.ps1*"
+$readme += "*Generated automatically by Baseline-Seed.ps1*"
 
 $readmePath = Join-Path $exportFolder "README.md"
 $readme -join "`n" | Out-File -LiteralPath $readmePath -Encoding UTF8
@@ -1064,7 +1064,7 @@ Write-Host ""
 # Show appreciation call-to-action
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "   Found Base-ics helpful?" -ForegroundColor Yellow
+Write-Host "   Found Baseline-Seed helpful?" -ForegroundColor Yellow
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "If this tool saved you time or made your work easier," -ForegroundColor White
@@ -1077,6 +1077,6 @@ Write-Host "Joshua Walderbach (j0w03ow)" -ForegroundColor White
 Write-Host "Badgify: " -NoNewline -ForegroundColor Gray
 Write-Host "https://internal.walmart.com/content/badgify/home/badgify.html" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Thank you for using Base-ics! " -ForegroundColor Green
+Write-Host "Thank you for using Baseline-Seed! " -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
