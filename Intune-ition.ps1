@@ -424,7 +424,7 @@ Write-Host "  ✓ Data collected" -ForegroundColor Green
 
 # Export to individual Markdown files
 Write-Host ""
-Write-Host "[5/5] Exporting to Markdown files..." -ForegroundColor Yellow
+Write-Host "[5/5] Exporting to Markdown and JSON files..." -ForegroundColor Yellow
 
 $exportFolder = $OutputPath
 
@@ -489,6 +489,120 @@ function Get-ProfileTypeName {
                 "Device Configuration"
             }
         }
+    }
+}
+
+# Helper function to build import-ready JSON structure
+function Build-ImportReadyJson {
+    param(
+        [Parameter(Mandatory=$true)]
+        $Profile
+    )
+
+    $name = if ($Profile.displayName) { $Profile.displayName } else { $Profile.name }
+
+    # Properties to strip from all profile types
+    $stripProps = @(
+        'id', 'createdDateTime', 'lastModifiedDateTime', 'version',
+        'supportsScopeTags', 'profileSource', 'detailedSettings',
+        'assignments', 'isAssigned', 'settingCount', 'creationSource',
+        '@odata.context'
+    )
+
+    # Build assignments with resolved names
+    $importAssignments = @()
+    if ($Profile.assignments) {
+        foreach ($assignment in $Profile.assignments) {
+            $importAssignments += $assignment
+        }
+    }
+
+    # Build per-type import structure
+    $importData = switch ($Profile.profileSource) {
+        'configurationPolicy' {
+            # Settings Catalog - strip to importable properties
+            $profileBody = [ordered]@{}
+            foreach ($prop in @('name', 'description', 'platforms', 'technologies', 'templateReference', 'roleScopeTagIds')) {
+                if ($null -ne $Profile.$prop) {
+                    $profileBody[$prop] = $Profile.$prop
+                }
+            }
+
+            [ordered]@{
+                createEndpoint   = "POST https://graph.microsoft.com/beta/deviceManagement/configurationPolicies"
+                profile          = $profileBody
+                settingsEndpoint = "POST https://graph.microsoft.com/beta/deviceManagement/configurationPolicies/{id}/settings"
+                settings         = $Profile.detailedSettings
+                assignEndpoint   = "POST https://graph.microsoft.com/beta/deviceManagement/configurationPolicies/{id}/assign"
+                assignments      = $importAssignments
+            }
+        }
+        'deviceConfiguration' {
+            # Legacy - settings are inline in the profile body
+            $profileBody = [ordered]@{}
+            foreach ($prop in $Profile.PSObject.Properties) {
+                if ($prop.Name -notin $stripProps) {
+                    $profileBody[$prop.Name] = $prop.Value
+                }
+            }
+
+            [ordered]@{
+                createEndpoint   = "POST https://graph.microsoft.com/beta/deviceManagement/deviceConfigurations"
+                profile          = $profileBody
+                settingsEndpoint = $null
+                settings         = $null
+                assignEndpoint   = "POST https://graph.microsoft.com/beta/deviceManagement/deviceConfigurations/{id}/assign"
+                assignments      = $importAssignments
+            }
+        }
+        'groupPolicyConfiguration' {
+            # ADMX - strip to importable properties
+            $profileBody = [ordered]@{}
+            foreach ($prop in @('displayName', 'description', 'roleScopeTagIds')) {
+                if ($null -ne $Profile.$prop) {
+                    $profileBody[$prop] = $Profile.$prop
+                }
+            }
+
+            [ordered]@{
+                createEndpoint   = "POST https://graph.microsoft.com/beta/deviceManagement/groupPolicyConfigurations"
+                profile          = $profileBody
+                settingsEndpoint = "POST https://graph.microsoft.com/beta/deviceManagement/groupPolicyConfigurations/{id}/definitionValues"
+                settings         = $Profile.detailedSettings
+                assignEndpoint   = "POST https://graph.microsoft.com/beta/deviceManagement/groupPolicyConfigurations/{id}/assign"
+                assignments      = $importAssignments
+            }
+        }
+        'intent' {
+            # Endpoint Security - createInstance includes settings
+            $profileBody = [ordered]@{
+                displayName = $Profile.displayName
+                description = $Profile.description
+                templateId  = $Profile.templateId
+                settingsDelta = $Profile.detailedSettings
+            }
+
+            [ordered]@{
+                createEndpoint   = "POST https://graph.microsoft.com/beta/deviceManagement/templates/$($Profile.templateId)/createInstance"
+                profile          = $profileBody
+                settingsEndpoint = $null
+                settings         = $Profile.detailedSettings
+                assignEndpoint   = "POST https://graph.microsoft.com/beta/deviceManagement/intents/{id}/assign"
+                assignments      = $importAssignments
+            }
+        }
+    }
+
+    # Build final JSON structure
+    return [ordered]@{
+        metadata = [ordered]@{
+            exportDate        = (Get-Date -Format "o")
+            exportTool        = "Intune-ition"
+            sourceProfileId   = $Profile.id
+            sourceProfileName = $name
+            profileType       = $Profile.profileSource
+        }
+        import = $importData
     }
 }
 
@@ -723,11 +837,18 @@ foreach ($profile in $foundProfiles) {
     
     # Write MD file
     $md -join "`n" | Out-File -LiteralPath $mdFilePath -Encoding UTF8
-    
+
+    # Write import-ready JSON file
+    $jsonFileName = "$safeFileName.json"
+    $jsonFilePath = Join-Path $exportFolder $jsonFileName
+    $importJson = Build-ImportReadyJson -Profile $profile
+    $importJson | ConvertTo-Json -Depth 20 | Out-File -LiteralPath $jsonFilePath -Encoding UTF8
+
     # Track for README
     $exportedFiles += [PSCustomObject]@{
         Name = $name
         FileName = $mdFileName
+        JsonFileName = $jsonFileName
         Type = $profileType
         Id = $profileId
         Created = $createdDate
@@ -735,7 +856,7 @@ foreach ($profile in $foundProfiles) {
     }
 }
 
-Write-Host "  ✓ Exported $($exportedFiles.Count) profile files" -ForegroundColor Green
+Write-Host "  ✓ Exported $($exportedFiles.Count) profiles (Markdown + JSON)" -ForegroundColor Green
 
 # Create README.md index
 Write-Host ""
@@ -762,12 +883,14 @@ $readme += "``````"
 $readme += ""
 $readme += "## Profiles Collected"
 $readme += ""
-$readme += "| Profile Name | Type | Created | Modified | Link |"
-$readme += "|--------------|------|---------|----------|------|"
+$readme += "Each profile is exported as a Markdown documentation file and a companion JSON file. The JSON files are import-ready and can be used to recreate profiles in another Intune tenant via the Graph API."
+$readme += ""
+$readme += "| Profile Name | Type | Created | Modified | Docs | Import JSON |"
+$readme += "|--------------|------|---------|----------|------|-------------|"
 
 foreach ($file in ($exportedFiles | Sort-Object Name)) {
     $linkName = $file.Name -replace '\|', '\|'
-    $readme += "| $linkName | $($file.Type) | $($file.Created) | $($file.Modified) | [$($file.FileName)]($($file.FileName)) |"
+    $readme += "| $linkName | $($file.Type) | $($file.Created) | $($file.Modified) | [$($file.FileName)]($($file.FileName)) | [$($file.JsonFileName)]($($file.JsonFileName)) |"
 }
 
 $readme += ""
@@ -804,6 +927,7 @@ Write-Host "=== Export Complete ===" -ForegroundColor Green
 Write-Host ""
 Write-Host "Output folder: $exportFolder" -ForegroundColor Yellow
 Write-Host "  - $($exportedFiles.Count) profile Markdown files" -ForegroundColor Gray
+Write-Host "  - $($exportedFiles.Count) import-ready JSON files" -ForegroundColor Gray
 Write-Host "  - README.md index file" -ForegroundColor Gray
 Write-Host ""
 
