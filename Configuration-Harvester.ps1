@@ -140,7 +140,9 @@ if (-not (Test-Path $OutputPath)) {
     }
 }
 
-Write-Host "=== Intune Configuration Profile Export (Configuration-Harvester) ===" -ForegroundColor Cyan
+Write-Host "============================================================" -ForegroundColor Cyan
+Write-Host "  Intune Configuration Profile Export (Configuration-Harvester)" -ForegroundColor Cyan
+Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Check for Microsoft.Graph.Authentication module
@@ -923,7 +925,9 @@ Write-Host "Disconnecting from Microsoft Graph..." -ForegroundColor Gray
 Disconnect-MgGraph | Out-Null
 
 Write-Host ""
-Write-Host "=== Export Complete ===" -ForegroundColor Green
+Write-Host "============================================================" -ForegroundColor Green
+Write-Host "  Export Complete" -ForegroundColor Green
+Write-Host "============================================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "Output folder: $exportFolder" -ForegroundColor Yellow
 Write-Host "  - $($exportedFiles.Count) profile Markdown files" -ForegroundColor Gray
@@ -933,20 +937,21 @@ Write-Host ""
 
 # Show appreciation call-to-action
 Write-Host ""
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "   Found Configuration-Harvester helpful?" -ForegroundColor Yellow
-Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "If this tool saved you time or made your work easier," -ForegroundColor White
-Write-Host "consider giving a " -NoNewline -ForegroundColor White
+Write-Host "  Found Configuration-Harvester helpful?" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "  If this tool saved you time or made your work easier," -ForegroundColor White
+Write-Host "  consider giving a " -NoNewline -ForegroundColor White
 Write-Host "Badge " -NoNewline -ForegroundColor Green
 Write-Host "to recognize the effort!" -ForegroundColor White
 Write-Host ""
-Write-Host "Author: " -NoNewline -ForegroundColor Gray
+Write-Host "  Author:  " -NoNewline -ForegroundColor Gray
 Write-Host "Joshua Walderbach (j0w03ow)" -ForegroundColor White
-Write-Host "Badgify: " -NoNewline -ForegroundColor Gray
+Write-Host "  Badgify: " -NoNewline -ForegroundColor Gray
 Write-Host "https://internal.walmart.com/content/badgify/home/badgify.html" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Thank you for using Configuration-Harvester! " -ForegroundColor Green
-Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "  Thank you for using Configuration-Harvester!" -ForegroundColor Green
+Write-Host ""
+Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
