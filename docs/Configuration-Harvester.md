@@ -1,5 +1,7 @@
 # Configuration-Harvester - Technical Documentation
 
+> ⚠️ **Uses Microsoft Graph `/beta` endpoints**. API shapes and behavior can change without notice.
+
 ## Overview
 
 `Configuration-Harvester.ps1` is a PowerShell script that exports Microsoft Intune configuration profiles to individual Markdown files. It queries all four Intune profile types via the Microsoft Graph API and generates human-readable documentation.
@@ -12,15 +14,21 @@
 
 ## Table of Contents
 
-1. [Requirements](#requirements)
-2. [Parameters](#parameters)
-3. [Authentication](#authentication)
-4. [Profile Types](#profile-types)
-5. [Output Format](#output-format)
-6. [API Endpoints](#api-endpoints)
-7. [Examples](#examples)
-8. [Troubleshooting](#troubleshooting)
-9. [Technical Details](#technical-details)
+1. [Quick Start](#quick-start)
+2. [Requirements](#requirements)
+3. [Parameters](#parameters)
+4. [Inputs and Outputs](#inputs-and-outputs)
+5. [Data Sensitivity](#data-sensitivity)
+6. [Authentication](#authentication)
+7. [Profile Types](#profile-types)
+8. [Output Format](#output-format)
+9. [API Endpoints](#api-endpoints)
+10. [Examples](#examples)
+11. [Troubleshooting](#troubleshooting)
+12. [How It Works](#how-it-works)
+13. [Limitations](#limitations)
+14. [Technical Details](#technical-details)
+15. [Changelog](#changelog)
 
 ---
 
@@ -46,6 +54,12 @@ This permission is typically granted through one of these roles:
 
 ---
 
+## Quick Start
+
+```powershell
+.\Configuration-Harvester.ps1 -All -OutputPath ".\Exports-$(Get-Date -Format 'ddMMMyyyy')"
+```
+
 ## Parameters
 
 | Parameter | Type | Required | Description |
@@ -64,6 +78,25 @@ The script supports three mutually exclusive input methods:
 2. **Csv** - Import profile names from a CSV file
 3. **All** - Export all profiles (no filtering)
 4. **Default** - Interactive prompt for profile names
+
+---
+
+## Inputs and Outputs
+
+### Inputs
+- Parameters for name filtering, CSV input, or `-All`
+- Optional CSV file with a `ProfileName` column (or `-CsvColumn`)
+
+### Outputs
+- One Markdown file per profile
+- One import-ready JSON file per profile
+- A README index file for the export folder
+
+---
+
+## Data Sensitivity
+
+Exports include raw JSON settings, assignments, and resolved group names. Some profiles can include secrets or sensitive values (certificates, OMA-URI values). Treat exported files as sensitive data and store them appropriately.
 
 ---
 
@@ -273,11 +306,23 @@ GET https://graph.microsoft.com/beta/deviceManagement/assignmentFilters/{filterI
 Install-Module Microsoft.Graph.Authentication -Scope CurrentUser -Force
 ```
 
-### Performance Considerations
+---
 
-- **Large tenants:** Exporting all profiles may take 10-30+ minutes due to per-profile API calls
-- **API throttling:** Script handles pagination but may slow down with many profiles
-- **Group resolution:** Each unique group ID requires an API call (results are cached)
+## How It Works
+
+- Connects to Microsoft Graph with `DeviceManagementConfiguration.Read.All`
+- Discovers profiles across legacy, Settings Catalog, ADMX, and Endpoint Security endpoints
+- Fetches assignments and settings per profile type
+- Resolves group and filter names with caching
+- Renders Markdown, import-ready JSON, and an index README
+
+---
+
+## Limitations
+
+- Uses Microsoft Graph `/beta` endpoints which can change without notice
+- Large tenants can take significant time due to per-profile detail requests
+- Some settings are complex objects and are summarized with a pointer to raw JSON
 
 ---
 
@@ -313,6 +358,8 @@ Profile names are sanitized for filesystem compatibility:
 - `$ErrorActionPreference = 'Stop'` for fail-fast behavior
 - Try/catch blocks around API calls with warnings for non-fatal errors
 - Continues processing remaining profiles if one fails
+
+---
 
 ---
 

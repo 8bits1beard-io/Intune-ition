@@ -1,5 +1,7 @@
 # Compliance-Fence - Technical Documentation
 
+> ⚠️ **Uses Microsoft Graph `/beta` endpoints**. API shapes and behavior can change without notice.
+
 ## Overview
 
 `Compliance-Fence.ps1` is a PowerShell script that exports Microsoft Intune compliance policies to individual Markdown files. It queries both legacy device compliance policies and Settings Catalog-based compliance policies via the Microsoft Graph API, generating human-readable documentation including settings, non-compliance actions, and assignments.
@@ -12,15 +14,21 @@
 
 ## Table of Contents
 
-1. [Requirements](#requirements)
-2. [Parameters](#parameters)
-3. [Authentication](#authentication)
-4. [Policy Types](#policy-types)
-5. [Output Format](#output-format)
-6. [API Endpoints](#api-endpoints)
-7. [Examples](#examples)
-8. [Troubleshooting](#troubleshooting)
-9. [Technical Details](#technical-details)
+1. [Quick Start](#quick-start)
+2. [Requirements](#requirements)
+3. [Parameters](#parameters)
+4. [Inputs and Outputs](#inputs-and-outputs)
+5. [Data Sensitivity](#data-sensitivity)
+6. [Authentication](#authentication)
+7. [Policy Types](#policy-types)
+8. [Output Format](#output-format)
+9. [API Endpoints](#api-endpoints)
+10. [Examples](#examples)
+11. [Troubleshooting](#troubleshooting)
+12. [How It Works](#how-it-works)
+13. [Limitations](#limitations)
+14. [Technical Details](#technical-details)
+15. [Changelog](#changelog)
 
 ---
 
@@ -49,6 +57,12 @@ These permissions are typically granted through one of these roles:
 
 ---
 
+## Quick Start
+
+```powershell
+.\Compliance-Fence.ps1 -All -Platform All -OutputPath ".\Compliance-$(Get-Date -Format 'ddMMMyyyy')"
+```
+
 ## Parameters
 
 | Parameter | Type | Required | Description |
@@ -75,6 +89,24 @@ The script supports three mutually exclusive input methods:
 2. **Csv** - Import policy names from a CSV file
 3. **All** - Export all compliance policies (no filtering)
 4. **Default** - Interactive prompt for policy names
+
+---
+
+## Inputs and Outputs
+
+### Inputs
+- Parameters for name filtering, CSV input, or `-All`
+- Optional CSV file with a `PolicyName` column (or `-CsvColumn`)
+
+### Outputs
+- One Markdown file per policy
+- A README index file for the export folder
+
+---
+
+## Data Sensitivity
+
+Exports include raw JSON settings, assignments, scope tags, and resolved group names. Some policies can include compliance actions or notifications. Treat exported files as sensitive data and store them appropriately.
 
 ---
 
@@ -311,11 +343,24 @@ GET https://graph.microsoft.com/beta/deviceManagement/assignmentFilters/{filterI
 Install-Module Microsoft.Graph.Authentication -Scope CurrentUser -Force
 ```
 
-### Performance Considerations
+---
 
-- **Large tenants:** Exporting all policies may take several minutes
-- **API throttling:** Script handles pagination but may slow down with many policies
-- **Group resolution:** Each unique group ID requires an API call (results are cached)
+## How It Works
+
+- Connects to Microsoft Graph with `DeviceManagementConfiguration.Read.All`
+- Discovers Settings Catalog and legacy compliance policies
+- Filters by platform and display name patterns
+- Fetches assignments, settings, and non-compliance actions
+- Resolves group, filter, and scope tag names with caching
+- Renders Markdown and an index README
+
+---
+
+## Limitations
+
+- Uses Microsoft Graph `/beta` endpoints which can change without notice
+- Scope tag names require `DeviceManagementRBAC.Read.All`; otherwise IDs are used
+- Settings Catalog policies use definition IDs which are not always human-readable
 
 ---
 

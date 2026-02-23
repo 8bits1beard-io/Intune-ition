@@ -1,6 +1,7 @@
 # Baseline-Seed - Technical Documentation
 
 > ⚠️ **IN DEVELOPMENT** - This script is not ready for production use.
+> ⚠️ **Uses Microsoft Graph `/beta` endpoints**. API shapes and behavior can change without notice.
 
 ## Overview
 
@@ -22,24 +23,31 @@ This script is currently under development. The following challenges are being a
 2. **Multiple API sources** - Security baselines span multiple Graph API endpoints with different data structures
 3. **Settings retrieval** - Intent-based policies require complex settings aggregation
 
+### Current Behavior
+
+The script exits immediately after printing a development notice. No data is collected or exported yet.
+
 ### Development Roadmap
-- [ ] Fix template-to-instance name matching
-- [ ] Support Settings Catalog security policies
-- [ ] Handle multiple baseline versions
-- [ ] Add Settings Catalog settings expansion
-- [ ] Complete settings formatting for all baseline types
+- Fix template-to-instance name matching
+- Support Settings Catalog security policies
+- Handle multiple baseline versions
+- Add Settings Catalog settings expansion
+- Complete settings formatting for all baseline types
 
 ---
 
 ## Table of Contents
 
-1. [Requirements](#requirements)
-2. [Parameters](#parameters)
-3. [Authentication](#authentication)
-4. [Baseline Types](#baseline-types)
-5. [Output Format](#output-format)
-6. [API Endpoints](#api-endpoints)
-7. [Examples](#examples)
+1. [Quick Start](#quick-start)
+2. [Requirements](#requirements)
+3. [Parameters](#parameters)
+4. [Inputs and Outputs (Planned)](#inputs-and-outputs-planned)
+5. [Authentication](#authentication)
+6. [Baseline Types](#baseline-types)
+7. [Output Format (Planned)](#output-format-planned)
+8. [API Endpoints](#api-endpoints)
+9. [Examples (Planned)](#examples-planned)
+10. [Changelog](#changelog)
 
 ---
 
@@ -65,6 +73,10 @@ This permission is typically granted through one of these roles:
 
 ---
 
+## Quick Start
+
+This script is not ready for use. It exits immediately after printing a development notice.
+
 ## Parameters
 
 | Parameter | Type | Required | Description |
@@ -83,6 +95,18 @@ The script supports three mutually exclusive input methods:
 2. **Csv** - Import baseline names from a CSV file
 3. **All** - Export all security baselines (no filtering)
 4. **Default** - Interactive prompt for baseline names
+
+---
+
+## Inputs and Outputs (Planned)
+
+### Inputs
+- Parameters for name filtering, CSV input, or `-All`
+- Optional CSV file with a `BaselineName` column (or `-CsvColumn`)
+
+### Outputs
+- One Markdown file per baseline
+- A README index file for the export folder
 
 ---
 
@@ -143,9 +167,9 @@ The script is designed to support multiple security baseline sources:
 
 ---
 
-## Output Format
+## Output Format (Planned)
 
-### Directory Structure (Planned)
+### Directory Structure
 ```
 OutputPath/
 ├── README.md                    # Collection index and metadata
@@ -154,7 +178,7 @@ OutputPath/
 └── ...
 ```
 
-### Individual Baseline Files (Planned)
+### Individual Baseline Files
 
 Each Markdown file will contain:
 
@@ -216,9 +240,9 @@ GET https://graph.microsoft.com/beta/deviceManagement/intents('{id}')/assignment
 
 ---
 
-## Examples
+## Examples (Planned)
 
-> ⚠️ These examples will work once development is complete.
+These examples will work once development is complete.
 
 ### Export All Security Baselines
 ```powershell

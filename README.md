@@ -1,212 +1,62 @@
 # Intune-ition
 
-Documentation repository for Walmart's Microsoft Intune configuration profiles. Contains point-in-time exports of device management policies, settings, and assignments.
+Documentation repository for Walmart's Microsoft Intune configuration artifacts. Contains point-in-time exports of device management policies, settings, assignments, and application details.
 
 ## Overview
 
-This repository serves as a centralized archive for Intune configuration profile documentation. Each dated folder contains individual Markdown files documenting configuration profiles including Settings Catalog policies, Administrative Templates (ADMX), Device Configurations, and Endpoint Security policies with full settings and group assignments.
+This repository serves as a centralized archive for Intune configuration documentation. Each dated export folder contains a README index plus individual Markdown files for each exported item.
 
 ## Repository Structure
 
 ```
 Intune-ition/
-├── docs/                           # Tool documentation
-│   └── Configuration-Harvester.md  # Technical documentation
+├── docs/                           # Tool manuals
 ├── Configuration-Harvester.ps1     # Configuration profile export tool
-├── Application-Stall.ps1          # Application export tool
-├── Baseline-Seed.ps1              # Security baseline export tool (in development)
-├── Compliance-Fence.ps1           # Compliance policy export tool
-├── 17FEB2026/                      # Export snapshot
+├── Application-Stall.ps1           # Application export tool
+├── Baseline-Seed.ps1               # Security baseline export tool (in development)
+├── Compliance-Fence.ps1            # Compliance policy export tool
+├── 17FEB2026/                      # Example export snapshot
 │   ├── README.md                   # Collection metadata & index
-│   ├── Profile1.md                 # Individual profile docs
+│   ├── Profile1.md                 # Individual item docs
 │   └── ...
-└── README.md                       # This file
+└── README.md
 ```
 
 ## Export Tools
 
-| Tool | Description |
-|------|-------------|
-| [Configuration-Harvester.ps1](Configuration-Harvester.ps1) | Export Intune **configuration profiles** to Markdown files |
-| [Application-Stall.ps1](Application-Stall.ps1) | Export Intune **applications** to Markdown files |
-| [Compliance-Fence.ps1](Compliance-Fence.ps1) | Export Intune **compliance policies** to Markdown files |
-| [Baseline-Seed.ps1](Baseline-Seed.ps1) | Export Intune **security baselines** to Markdown files *(in development)* |
+| Tool | Description | Manual |
+|------|-------------|--------|
+| `Configuration-Harvester.ps1` | Export Intune configuration profiles | `docs/Configuration-Harvester.md` |
+| `Application-Stall.ps1` | Export Intune applications | `docs/Application-Stall.md` |
+| `Compliance-Fence.ps1` | Export Intune compliance policies | `docs/Compliance-Fence.md` |
+| `Baseline-Seed.ps1` | Export Intune security baselines (in development) | `docs/Baseline-Seed.md` |
 
-### Prerequisites
+## Requirements (High Level)
 
 - PowerShell 5.1 or higher
-- Microsoft.Graph.Authentication module
-- Azure AD account with `DeviceManagementConfiguration.Read.All` permission
+- `Microsoft.Graph.Authentication` module
+- Entra ID account with permissions for the specific tool
 
-### Installation
+## Permissions Summary
 
-```powershell
-# Install required module
-Install-Module Microsoft.Graph.Authentication -Scope CurrentUser
-```
+| Tool | Required Permission | Optional Permission |
+|------|---------------------|---------------------|
+| Configuration-Harvester | `DeviceManagementConfiguration.Read.All` | None |
+| Application-Stall | `DeviceManagementApps.Read.All` | None |
+| Compliance-Fence | `DeviceManagementConfiguration.Read.All` | `DeviceManagementRBAC.Read.All` |
+| Baseline-Seed | `DeviceManagementConfiguration.Read.All` | None |
 
-### Export All Profiles (Full Tenant Snapshot)
+## Data Sensitivity
 
-```powershell
-.\Configuration-Harvester.ps1 -All -OutputPath ".\$(Get-Date -Format 'ddMMMyyyy')"
-```
-
-### Export Specific Profiles
-
-```powershell
-# By name pattern (wildcards supported)
-.\Configuration-Harvester.ps1 -ProfileNames "WinD_*,GLOBAL_*" -OutputPath ".\Exports"
-
-# From CSV list
-.\Configuration-Harvester.ps1 -CsvFile "profiles.csv" -OutputPath ".\Exports"
-
-# Interactive (prompts for names)
-.\Configuration-Harvester.ps1 -OutputPath ".\Exports"
-```
-
-### Export All Applications
-
-```powershell
-.\Application-Stall.ps1 -All -OutputPath ".\Apps-$(Get-Date -Format 'ddMMMyyyy')"
-```
-
-### Export Specific Applications
-
-```powershell
-# By name pattern (wildcards supported)
-.\Application-Stall.ps1 -AppNames "7-Zip*,Chrome*,*Office*" -OutputPath ".\Apps"
-
-# All platforms (default is Windows only)
-.\Application-Stall.ps1 -All -Platform All -OutputPath ".\AllApps"
-
-# Interactive (prompts for names)
-.\Application-Stall.ps1 -OutputPath ".\Apps"
-```
-
-### Export All Security Baselines
-
-```powershell
-.\Baseline-Seed.ps1 -All -OutputPath ".\Baselines-$(Get-Date -Format 'ddMMMyyyy')"
-```
-
-### Export Specific Security Baselines
-
-```powershell
-# By name pattern (wildcards supported)
-.\Baseline-Seed.ps1 -BaselineNames "Windows*,Defender*" -OutputPath ".\Baselines"
-
-# Interactive (prompts for names)
-.\Baseline-Seed.ps1 -OutputPath ".\Baselines"
-```
-
-### Export All Compliance Policies
-
-```powershell
-.\Compliance-Fence.ps1 -All -OutputPath ".\Compliance-$(Get-Date -Format 'ddMMMyyyy')"
-```
-
-### Export Specific Compliance Policies
-
-```powershell
-# By name pattern (wildcards supported)
-.\Compliance-Fence.ps1 -PolicyNames "Windows*,*BYOD*" -OutputPath ".\Compliance"
-
-# Filter by platform
-.\Compliance-Fence.ps1 -All -Platform Windows -OutputPath ".\WindowsCompliance"
-
-# From CSV list
-.\Compliance-Fence.ps1 -CsvFile "policies.csv" -OutputPath ".\Compliance"
-
-# Interactive (prompts for names)
-.\Compliance-Fence.ps1 -OutputPath ".\Compliance"
-```
-
-## Profile Documentation Format
-
-Each profile Markdown file includes:
-- Profile information (name, type, ID, dates)
-- Group assignments with resolved group names
-- Settings in human-readable table format
-- Raw JSON data for technical reference
-
-## Application Documentation Format
-
-Each application Markdown file includes:
-- Application information (name, type, publisher, version)
-- Group assignments with install intent (required/available)
-- Installation details (for Win32/LOB apps: commands, detection rules, requirements)
-- Raw JSON data for technical reference
-
-## Security Baseline Documentation Format
-
-Each security baseline Markdown file includes:
-- Baseline information (name, type, template, version)
-- Group assignments with resolved group names
-- Settings organized by category (where available)
-- Template information for versioning
-- Raw JSON data for technical reference
-
-## Compliance Policy Documentation Format
-
-Each compliance policy Markdown file includes:
-- Policy information (name, platform, ID, dates)
-- Scope tag assignments
-- Group assignments with resolved group names
-- Actions for non-compliance (grace periods, notifications)
-- Compliance settings (password, encryption, device health, etc.)
-
-## Supported Profile Types
-
-| Type | API Endpoint |
-|------|--------------|
-| Settings Catalog | `configurationPolicies` |
-| Administrative Templates (ADMX) | `groupPolicyConfigurations` |
-| Device Configurations (Legacy) | `deviceConfigurations` |
-| Endpoint Security | `intents` |
-
-## Supported Application Types
-
-| Platform | Types |
-|----------|-------|
-| Windows | Win32 LOB, Win32 Catalog, WinGet, MSI, MSIX/APPX, Microsoft 365 Apps, Edge, Web Apps |
-| iOS | Store Apps, VPP Apps, LOB Apps |
-| Android | Store Apps, Managed Google Play, LOB Apps |
-| macOS | LOB Apps, DMG, PKG, Microsoft 365, Edge |
-
-## Supported Security Baseline Types
-
-| Type | Description |
-|------|-------------|
-| Windows Security Baseline | Microsoft's recommended security settings for Windows |
-| Microsoft Edge Security Baseline | Security settings for Microsoft Edge browser |
-| Microsoft Defender Antivirus | Antivirus protection policies |
-| Windows Defender Firewall | Firewall rules and settings |
-| Microsoft Defender for Endpoint | Advanced threat protection settings |
-| BitLocker Encryption | Disk encryption policies |
-| Attack Surface Reduction | ASR rules and exploit protection |
-| Account Protection | Credential guard and account policies |
-
-## Supported Compliance Policy Platforms
-
-| Platform | Description |
-|----------|-------------|
-| Windows 10/11 | Windows device compliance policies |
-| Windows 8.1 | Legacy Windows compliance |
-| iOS/iPadOS | Apple mobile device compliance |
-| macOS | Mac computer compliance |
-| Android Device Administrator | Legacy Android compliance |
-| Android Enterprise (Work Profile) | BYOD Android compliance |
-| Android Enterprise (Fully Managed) | Corporate-owned Android compliance |
-| Linux | Linux device compliance (Settings Catalog) |
+Exports include raw JSON and resolved group names. Some profiles and apps can include secrets or sensitive values (certificates, OMA-URI values, install commands). Treat exported files as sensitive data and store them appropriately.
 
 ## Documentation
 
-| Tool | Documentation |
-|------|---------------|
-| Configuration-Harvester.ps1 | [Technical Documentation](docs/Configuration-Harvester.md) |
-| Application-Stall.ps1 | [Technical Documentation](docs/Application-Stall.md) |
-| Compliance-Fence.ps1 | [Technical Documentation](docs/Compliance-Fence.md) |
-| Baseline-Seed.ps1 | [Technical Documentation](docs/Baseline-Seed.md) *(in development)* |
+Each tool has a dedicated manual with usage and implementation details:
+- `docs/Configuration-Harvester.md`
+- `docs/Application-Stall.md`
+- `docs/Compliance-Fence.md`
+- `docs/Baseline-Seed.md` (in development)
 
 ## Contributing
 

@@ -1,5 +1,7 @@
 # Application-Stall - Technical Documentation
 
+> ⚠️ **Uses Microsoft Graph `/beta` endpoints**. API shapes and behavior can change without notice.
+
 ## Overview
 
 `Application-Stall.ps1` is a PowerShell script that exports Microsoft Intune applications to individual Markdown files. It queries the Intune mobile apps API via Microsoft Graph and generates human-readable documentation including deployment settings, assignments, and detection rules.
@@ -12,15 +14,21 @@
 
 ## Table of Contents
 
-1. [Requirements](#requirements)
-2. [Parameters](#parameters)
-3. [Authentication](#authentication)
-4. [Application Types](#application-types)
-5. [Output Format](#output-format)
-6. [API Endpoints](#api-endpoints)
-7. [Examples](#examples)
-8. [Troubleshooting](#troubleshooting)
-9. [Technical Details](#technical-details)
+1. [Quick Start](#quick-start)
+2. [Requirements](#requirements)
+3. [Parameters](#parameters)
+4. [Inputs and Outputs](#inputs-and-outputs)
+5. [Data Sensitivity](#data-sensitivity)
+6. [Authentication](#authentication)
+7. [Application Types](#application-types)
+8. [Output Format](#output-format)
+9. [API Endpoints](#api-endpoints)
+10. [Examples](#examples)
+11. [Troubleshooting](#troubleshooting)
+12. [How It Works](#how-it-works)
+13. [Limitations](#limitations)
+14. [Technical Details](#technical-details)
+15. [Changelog](#changelog)
 
 ---
 
@@ -45,6 +53,12 @@ This permission is typically granted through one of these roles:
 - Custom role with app management read access
 
 ---
+
+## Quick Start
+
+```powershell
+.\Application-Stall.ps1 -All -Platform Windows -OutputPath ".\Apps-$(Get-Date -Format 'ddMMMyyyy')"
+```
 
 ## Parameters
 
@@ -72,6 +86,24 @@ The script supports three mutually exclusive input methods:
 2. **Csv** - Import app names from a CSV file
 3. **All** - Export all applications (no filtering)
 4. **Default** - Interactive prompt for app names
+
+---
+
+## Inputs and Outputs
+
+### Inputs
+- Parameters for name filtering, CSV input, or `-All`
+- Optional CSV file with an `AppName` column (or `-CsvColumn`)
+
+### Outputs
+- One Markdown file per application
+- A README index file for the export folder
+
+---
+
+## Data Sensitivity
+
+Exports include raw JSON and resolved group names. Some app entries can include installation commands or other sensitive deployment details. Treat exported files as sensitive data and store them appropriately.
 
 ---
 
@@ -284,11 +316,24 @@ GET https://graph.microsoft.com/beta/deviceManagement/assignmentFilters/{filterI
 Install-Module Microsoft.Graph.Authentication -Scope CurrentUser -Force
 ```
 
-### Performance Considerations
+---
 
-- **Large tenants:** Exporting all apps may take 10-30+ minutes due to per-app API calls
-- **API throttling:** Script handles pagination but may slow down with many applications
-- **Group resolution:** Each unique group ID requires an API call (results are cached)
+## How It Works
+
+- Connects to Microsoft Graph with `DeviceManagementApps.Read.All`
+- Discovers applications across the `mobileApps` endpoint
+- Filters by platform and display name patterns
+- Fetches assignments and Win32 details when available
+- Resolves group and filter names with caching
+- Renders Markdown and an index README
+
+---
+
+## Limitations
+
+- Uses Microsoft Graph `/beta` endpoints which can change without notice
+- Some app types do not expose detection rules or requirements
+- Large tenants can take significant time due to per-app detail requests
 
 ---
 
