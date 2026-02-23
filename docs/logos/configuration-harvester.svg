@@ -1,21 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Configuration Harvester logo">
-  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#0B0F14" stroke-width="24"/>
-  <g stroke="#0B0F14" stroke-width="20" stroke-linecap="round">
-    <line x1="160" y1="120" x2="160" y2="300"/>
-    <line x1="240" y1="120" x2="240" y2="300"/>
-    <line x1="320" y1="120" x2="320" y2="300"/>
-  </g>
-  <g fill="#20B486">
-    <circle cx="160" cy="210" r="16"/>
-    <circle cx="240" cy="250" r="16"/>
-    <circle cx="320" cy="180" r="16"/>
-  </g>
-  <g stroke="#20B486" stroke-width="16" stroke-linecap="round" fill="none">
-    <line x1="360" y1="220" x2="360" y2="320"/>
-    <line x1="382" y1="230" x2="382" y2="330"/>
-    <line x1="404" y1="240" x2="404" y2="340"/>
-    <path d="M350 210 C360 190 380 190 390 210"/>
-    <path d="M372 220 C382 200 402 200 412 220"/>
-  </g>
-  <text x="256" y="410" text-anchor="middle" font-family="Arial, sans-serif" font-size="96" font-weight="700" fill="#0B0F14">CH</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 64 64" fill="none">
+  <rect x="3" y="3" width="58" height="58" rx="12" stroke="#2B2B2B" stroke-width="2" fill="none"/>
+  <line x1="16" y1="14" x2="16" y2="46" stroke="#2B2B2B" stroke-width="2"/>
+  <line x1="22" y1="14" x2="22" y2="46" stroke="#2B2B2B" stroke-width="2"/>
+  <line x1="28" y1="14" x2="28" y2="46" stroke="#2B2B2B" stroke-width="2"/>
+  <rect x="13.2" y="22" width="5.6" height="6.4" rx="3.2" fill="#14B8A6" stroke="#2B2B2B" stroke-width="2"/>
+  <rect x="19.2" y="32" width="5.6" height="6.4" rx="3.2" fill="#14B8A6" stroke="#2B2B2B" stroke-width="2"/>
+  <rect x="25.2" y="18" width="5.6" height="6.4" rx="3.2" fill="#14B8A6" stroke="#2B2B2B" stroke-width="2"/>
+  <path d="M41 46 C43 38,45 30,48 18" stroke="#2B2B2B" stroke-width="2" fill="none"/>
+  <path d="M45 46 C47 37,50 28,54 18" stroke="#2B2B2B" stroke-width="2" fill="none"/>
+  <circle cx="49" cy="22" r="2" fill="#D2A679"/>
+  <circle cx="52" cy="25" r="2" fill="#D2A679"/>
+  <circle cx="46" cy="28" r="2" fill="#D2A679"/>
+  <circle cx="50" cy="31" r="2" fill="#D2A679"/>
+  <text x="32" y="56" text-anchor="middle" font-size="7" fill="#2B2B2B" opacity=".5" font-family="Arial" font-weight="bold">CH</text>
 </svg>

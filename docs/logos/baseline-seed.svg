@@ -1,14 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Baseline Seed logo">
-  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#0B0F14" stroke-width="24"/>
-  <g stroke="#0B0F14" stroke-width="20" stroke-linecap="round">
-    <line x1="140" y1="300" x2="372" y2="300"/>
-    <line x1="140" y1="300" x2="140" y2="360"/>
-    <line x1="240" y1="300" x2="240" y2="360"/>
-    <line x1="340" y1="300" x2="340" y2="360"/>
-  </g>
-  <path d="M256 300 C256 262 256 238 256 206" stroke="#0B0F14" stroke-width="18" stroke-linecap="round" fill="none"/>
-  <path d="M256 216 C226 212 206 196 192 170" stroke="#7AAE3A" stroke-width="18" stroke-linecap="round" fill="none"/>
-  <path d="M256 216 C286 212 306 196 320 170" stroke="#7AAE3A" stroke-width="18" stroke-linecap="round" fill="none"/>
-  <circle cx="256" cy="312" r="12" fill="#7AAE3A"/>
-  <text x="256" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="96" font-weight="700" fill="#0B0F14">BS</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 64 64" fill="none">
+  <rect x="3" y="3" width="58" height="58" rx="12" stroke="#2B2B2B" stroke-width="2" fill="none"/>
+  <line x1="14" y1="40" x2="50" y2="40" stroke="#2B2B2B" stroke-width="2"/>
+  <rect x="18" y="34" width="4" height="6" fill="#84A32A" stroke="#2B2B2B" stroke-width="2"/>
+  <rect x="25" y="30" width="4" height="10" fill="#84A32A" stroke="#2B2B2B" stroke-width="2"/>
+  <rect x="41" y="32" width="4" height="8" fill="#84A32A" stroke="#2B2B2B" stroke-width="2"/>
+  <ellipse cx="32" cy="38" rx="5" ry="4" fill="#84A32A" stroke="#2B2B2B" stroke-width="2"/>
+  <path d="M32 34 C32 30,32 27,32 24" stroke="#2B2B2B" stroke-width="2"/>
+  <path d="M32 28 C29 27,27 25,27 23 C29 23,31 24,32 26Z" fill="#84A32A" stroke="#2B2B2B" stroke-width="2"/>
+  <path d="M32 28 C35 27,37 25,37 23 C35 23,33 24,32 26Z" fill="#84A32A" stroke="#2B2B2B" stroke-width="2"/>
+  <text x="32" y="56" text-anchor="middle" font-size="7" fill="#2B2B2B" opacity=".5" font-family="Arial" font-weight="bold">BS</text>
 </svg>

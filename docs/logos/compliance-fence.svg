@@ -1,17 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Compliance Fence logo">
-  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#0B0F14" stroke-width="24"/>
-  <path d="M256 120 L368 172 V268 C368 344 320 404 256 434 C192 404 144 344 144 268 V172 Z" fill="none" stroke="#0B0F14" stroke-width="20"/>
-  <g stroke="#E04F5F" stroke-width="16" stroke-linecap="round">
-    <line x1="206" y1="200" x2="206" y2="340"/>
-    <line x1="256" y1="200" x2="256" y2="340"/>
-    <line x1="306" y1="200" x2="306" y2="340"/>
-    <line x1="186" y1="240" x2="326" y2="240"/>
-    <line x1="186" y1="290" x2="326" y2="290"/>
-  </g>
-  <g fill="#E04F5F">
-    <polygon points="206,188 194,208 218,208"/>
-    <polygon points="256,188 244,208 268,208"/>
-    <polygon points="306,188 294,208 318,208"/>
-  </g>
-  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="96" font-weight="700" fill="#0B0F14">CF</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 64 64" fill="none">
+  <rect x="3" y="3" width="58" height="58" rx="12" stroke="#2B2B2B" stroke-width="2" fill="none"/>
+  <path d="M32 12 C38 15,45 16,50 16 V30 C50 41,42 48,32 52 C22 48,14 41,14 30 V16 C19 16,26 15,32 12Z" stroke="#2B2B2B" stroke-width="2" fill="none"/>
+  <line x1="20" y1="30" x2="44" y2="30" stroke="#2B2B2B" stroke-width="2"/>
+  <line x1="20" y1="36" x2="44" y2="36" stroke="#2B2B2B" stroke-width="2"/>
+  <rect x="22" y="24" width="4" height="16" fill="#EF4444" stroke="#2B2B2B" stroke-width="2"/>
+  <rect x="30" y="22" width="4" height="20" fill="#EF4444" stroke="#2B2B2B" stroke-width="2"/>
+  <rect x="38" y="24" width="4" height="16" fill="#EF4444" stroke="#2B2B2B" stroke-width="2"/>
+  <text x="32" y="56" text-anchor="middle" font-size="7" fill="#2B2B2B" opacity=".5" font-family="Arial" font-weight="bold">CF</text>
 </svg>
