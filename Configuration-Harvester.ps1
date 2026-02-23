@@ -361,10 +361,7 @@ foreach ($profile in $foundProfiles) {
         if ($profile.profileSource -eq 'configurationPolicy') {
             # Settings Catalog - use settings endpoint
             $uri = "https://graph.microsoft.com/beta/deviceManagement/configurationPolicies('$($profile.id)')/settings?`$expand=settingDefinitions&`$top=1000"
-            $settingsResponse = Invoke-MgGraphRequest -Uri $uri -Method GET
-            if ($settingsResponse.value) {
-                $settings = $settingsResponse.value
-            }
+            $settings = Invoke-GraphRequestWithPaging -Uri $uri
         } elseif ($profile.profileSource -eq 'deviceConfiguration') {
             # Legacy profile - extract settings from the profile object based on type
             $odataType = $profile.'@odata.type'
@@ -393,16 +390,15 @@ foreach ($profile in $foundProfiles) {
         } elseif ($profile.profileSource -eq 'groupPolicyConfiguration') {
             # ADMX profile - get definition values with definitions expanded
             $uri = "https://graph.microsoft.com/beta/deviceManagement/groupPolicyConfigurations('$($profile.id)')/definitionValues?`$expand=definition"
-            $defResponse = Invoke-MgGraphRequest -Uri $uri -Method GET
-            if ($defResponse.value) {
-                $definitionValues = $defResponse.value
+            $definitionValues = Invoke-GraphRequestWithPaging -Uri $uri
+            if ($definitionValues) {
                 # For each definition value, get presentation values
                 foreach ($defVal in $definitionValues) {
                     $presUri = "https://graph.microsoft.com/beta/deviceManagement/groupPolicyConfigurations('$($profile.id)')/definitionValues('$($defVal.id)')/presentationValues?`$expand=presentation"
                     try {
-                        $presResponse = Invoke-MgGraphRequest -Uri $presUri -Method GET
-                        if ($presResponse.value) {
-                            $defVal | Add-Member -NotePropertyName 'presentationValues' -NotePropertyValue $presResponse.value -Force
+                        $presValues = Invoke-GraphRequestWithPaging -Uri $presUri
+                        if ($presValues) {
+                            $defVal | Add-Member -NotePropertyName 'presentationValues' -NotePropertyValue $presValues -Force
                         }
                     } catch { }
                 }
@@ -411,10 +407,7 @@ foreach ($profile in $foundProfiles) {
         } elseif ($profile.profileSource -eq 'intent') {
             # Endpoint Security intent - get settings directly
             $uri = "https://graph.microsoft.com/beta/deviceManagement/intents('$($profile.id)')/settings"
-            $intentResponse = Invoke-MgGraphRequest -Uri $uri -Method GET
-            if ($intentResponse.value) {
-                $settings = $intentResponse.value
-            }
+            $settings = Invoke-GraphRequestWithPaging -Uri $uri
         }
     } catch {
         Write-Warning "    Failed to get settings: $_"
@@ -511,11 +504,15 @@ function Build-ImportReadyJson {
         '@odata.context'
     )
 
-    # Build assignments with resolved names
+    # Build assignments with resolved names stripped for import
     $importAssignments = @()
     if ($Profile.assignments) {
         foreach ($assignment in $Profile.assignments) {
-            $importAssignments += $assignment
+            $importAssignment = $assignment | Select-Object -Property *
+            if ($importAssignment.target) {
+                $importAssignment.target = $importAssignment.target | Select-Object -Property * -ExcludeProperty groupName, filterName
+            }
+            $importAssignments += $importAssignment
         }
     }
 
@@ -746,8 +743,8 @@ foreach ($profile in $foundProfiles) {
                     $settingDef = $setting.settingDefinitions | Select-Object -First 1
                     $settingName = if ($settingDef.displayName) { $settingDef.displayName } else { $settingDef.id }
                     $description = if ($settingDef.description) { 
-                        ($settingDef.description -split "`n")[0] -replace '\|', '-' 
-                        if ($_.Length -gt 100) { $_.Substring(0, 100) + "..." } else { $_ }
+                        $firstLine = ($settingDef.description -split "`n")[0] -replace '\|', '-'
+                        if ($firstLine.Length -gt 100) { $firstLine.Substring(0, 100) + "..." } else { $firstLine }
                     } else { "" }
                     
                     # Get configured value
