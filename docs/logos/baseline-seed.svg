@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Baseline Seed logo">
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#0B0F14" stroke-width="24"/>
+  <g stroke="#0B0F14" stroke-width="20" stroke-linecap="round">
+    <line x1="140" y1="300" x2="372" y2="300"/>
+    <line x1="140" y1="300" x2="140" y2="360"/>
+    <line x1="240" y1="300" x2="240" y2="360"/>
+    <line x1="340" y1="300" x2="340" y2="360"/>
+  </g>
+  <path d="M256 300 C256 262 256 238 256 206" stroke="#0B0F14" stroke-width="18" stroke-linecap="round" fill="none"/>
+  <path d="M256 216 C226 212 206 196 192 170" stroke="#7AAE3A" stroke-width="18" stroke-linecap="round" fill="none"/>
+  <path d="M256 216 C286 212 306 196 320 170" stroke="#7AAE3A" stroke-width="18" stroke-linecap="round" fill="none"/>
+  <circle cx="256" cy="312" r="12" fill="#7AAE3A"/>
+  <text x="256" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="96" font-weight="700" fill="#0B0F14">BS</text>
+</svg>

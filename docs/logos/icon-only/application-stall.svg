@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Application Stall icon">
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#0B0F14" stroke-width="24"/>
+  <path d="M120 172 L392 172 L364 128 L148 128 Z" fill="none" stroke="#0B0F14" stroke-width="20" stroke-linejoin="round"/>
+  <rect x="148" y="172" width="216" height="212" rx="22" fill="none" stroke="#0B0F14" stroke-width="20"/>
+  <g fill="#2D6CDF">
+    <rect x="182" y="206" width="56" height="56" rx="12"/>
+    <rect x="274" y="206" width="56" height="56" rx="12"/>
+    <rect x="182" y="286" width="56" height="56" rx="12"/>
+    <rect x="274" y="286" width="56" height="56" rx="12"/>
+  </g>
+</svg>

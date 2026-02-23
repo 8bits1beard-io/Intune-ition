@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Configuration Harvester logo">
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#0B0F14" stroke-width="24"/>
+  <g stroke="#0B0F14" stroke-width="20" stroke-linecap="round">
+    <line x1="160" y1="120" x2="160" y2="300"/>
+    <line x1="240" y1="120" x2="240" y2="300"/>
+    <line x1="320" y1="120" x2="320" y2="300"/>
+  </g>
+  <g fill="#20B486">
+    <circle cx="160" cy="210" r="16"/>
+    <circle cx="240" cy="250" r="16"/>
+    <circle cx="320" cy="180" r="16"/>
+  </g>
+  <g stroke="#20B486" stroke-width="16" stroke-linecap="round" fill="none">
+    <line x1="360" y1="220" x2="360" y2="320"/>
+    <line x1="382" y1="230" x2="382" y2="330"/>
+    <line x1="404" y1="240" x2="404" y2="340"/>
+    <path d="M350 210 C360 190 380 190 390 210"/>
+    <path d="M372 220 C382 200 402 200 412 220"/>
+  </g>
+  <text x="256" y="410" text-anchor="middle" font-family="Arial, sans-serif" font-size="96" font-weight="700" fill="#0B0F14">CH</text>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Compliance Fence logo">
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#0B0F14" stroke-width="24"/>
+  <path d="M256 120 L368 172 V268 C368 344 320 404 256 434 C192 404 144 344 144 268 V172 Z" fill="none" stroke="#0B0F14" stroke-width="20"/>
+  <g stroke="#E04F5F" stroke-width="16" stroke-linecap="round">
+    <line x1="206" y1="200" x2="206" y2="340"/>
+    <line x1="256" y1="200" x2="256" y2="340"/>
+    <line x1="306" y1="200" x2="306" y2="340"/>
+    <line x1="186" y1="240" x2="326" y2="240"/>
+    <line x1="186" y1="290" x2="326" y2="290"/>
+  </g>
+  <g fill="#E04F5F">
+    <polygon points="206,188 194,208 218,208"/>
+    <polygon points="256,188 244,208 268,208"/>
+    <polygon points="306,188 294,208 318,208"/>
+  </g>
+  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="96" font-weight="700" fill="#0B0F14">CF</text>
+</svg>
