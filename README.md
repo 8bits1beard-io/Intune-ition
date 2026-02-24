@@ -15,6 +15,7 @@ Intune-ition/
 ├── Application-Stall.ps1           # Application export tool
 ├── Baseline-Seed.ps1               # Security baseline export tool (in development)
 ├── Compliance-Fence.ps1            # Compliance policy export tool
+├── Policy-Compass.ps1              # Group Policy (AD/LGPO) export tool
 ├── 17FEB2026/                      # Example export snapshot
 │   ├── README.md                   # Collection metadata & index
 │   ├── Profile1.md                 # Individual item docs
@@ -30,12 +31,15 @@ Intune-ition/
 | `Application-Stall.ps1` | Export Intune applications | `docs/Application-Stall.md` |
 | `Compliance-Fence.ps1` | Export Intune compliance policies | `docs/Compliance-Fence.md` |
 | `Baseline-Seed.ps1` | Export Intune security baselines (in development) | `docs/Baseline-Seed.md` |
+| `Policy-Compass.ps1` | Export applied Group Policy (AD and LGPO) | `docs/Policy-Compass.md` |
 
 ## Requirements (High Level)
 
 - PowerShell 5.1 or higher
 - `Microsoft.Graph.Authentication` module
 - Entra ID account with permissions for the specific tool
+- RSAT GroupPolicy module (required for Policy-Compass GPO details)
+- RSAT ActiveDirectory module (optional for OU resolution)
 
 ## Permissions Summary
 
@@ -45,6 +49,7 @@ Intune-ition/
 | Application-Stall | `DeviceManagementApps.Read.All` | None |
 | Compliance-Fence | `DeviceManagementConfiguration.Read.All` | `DeviceManagementRBAC.Read.All` |
 | Baseline-Seed | `DeviceManagementConfiguration.Read.All` | None |
+| Policy-Compass | Local administrator (recommended) | Domain read access (if required) |
 
 ## Data Sensitivity
 
@@ -57,6 +62,7 @@ Each tool has a dedicated manual with usage and implementation details:
 - `docs/Application-Stall.md`
 - `docs/Compliance-Fence.md`
 - `docs/Baseline-Seed.md` (in development)
+- `docs/Policy-Compass.md`
 
 ## Contributing
 
